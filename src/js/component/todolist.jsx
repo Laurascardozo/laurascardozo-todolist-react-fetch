@@ -4,6 +4,7 @@ import React, {useState} from "react";
 const TodoList = () => {
     const [inputValue, setInputValue]  = useState ("");
     const [todos, setTodos] = useState([]);  
+    const [hoverItem, setHoverItem] = useState (null)
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -14,7 +15,7 @@ const TodoList = () => {
             <input 
              id="todo-list"
              type="text"
-             placeholder="No things to do, add task" 
+             placeholder= {todos.length === 0 && "No things to do, add task"}
              value={inputValue} 
              onChange={handleChange}
              onKeyDown= {(e) =>{
@@ -25,23 +26,30 @@ const TodoList = () => {
              }
              }>
             </input>
+            
             {todos.map((item,index) => (
-				<div>
-                    <i className="fa-regular fa-square-check"></i>
-                    
-                   <span> {item}{""} </span> 
-		
-                    <i className="fa-solid fa-trash p-20"
+				<div 
+                key={index}
+                onMouseEnter={()=> setHoverItem(index)}
+                onMouseLeave={()=> setHoverItem(null)}
+                >
+
+                <i className="fa-regular fa-square-check"></i>
+ 
+                <span> {item}{""} </span> 
+
+                {hoverItem === index && <i className="fa-solid fa-trash p-20"
                         onClick={()=>
                             setTodos(todos.filter(
-                                (item,currentIndex) =>
-                                    index != currentIndex
+                                (_item, currentIndex) =>
+                                    index != currentIndex 
                                         ))
-                    }></i>
+                                }
+                    ></i>}
                 
 				</div>
 			))}
-            <div> {todos.length} task</div>
+            <div> {todos.length} tasks</div>
         </div>  
     );
 }

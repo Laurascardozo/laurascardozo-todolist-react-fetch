@@ -12,7 +12,6 @@
     margin: auto;
     display: flex;
     justify-content: center;
-    align-content: center;
     margin-top: 20px;
     width: 45vw;
     background-color: aqua;
@@ -30,4 +29,8 @@ ul {
     
   }
 
+  #trash:hover {
+    background-color: blanchedalmond;
+
+  }
 
