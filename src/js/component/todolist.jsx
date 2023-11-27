@@ -15,7 +15,6 @@ const TodoList = () => {
             <input 
              id="todo-list"
              type="text"
-             placeholder= {todos.length === 0 && "No things to do, add task"}
              value={inputValue} 
              onChange={handleChange}
              onKeyDown= {(e) =>{
@@ -26,6 +25,9 @@ const TodoList = () => {
              }
              }>
             </input>
+            <>
+            {todos.length === 0 && "No things to do, add task"}
+            </>
             
             {todos.map((item,index) => (
 				<div 
@@ -41,8 +43,8 @@ const TodoList = () => {
                 {hoverItem === index && <i className="fa-solid fa-trash p-20"
                         onClick={()=>
                             setTodos(todos.filter(
-                                (_item, currentIndex) =>
-                                    index != currentIndex 
+                                (todos, currentIndex) =>
+                                    index!= currentIndex 
                                         ))
                                 }
                     ></i>}
