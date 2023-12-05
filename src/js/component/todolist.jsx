@@ -1,61 +1,120 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 
 
-const TodoList = () => {
-    const [inputValue, setInputValue]  = useState ("");
-    const [todos, setTodos] = useState([]);  
-    const [hoverItem, setHoverItem] = useState (null)
+export const TodoList = () => {
+    const [inputValue, setInputValue] = useState("");
+    const [todos, setTodos] = useState([]);
+    const [hoverItem, setHoverItem] = useState(null)
 
     const handleChange = (event) => {
-        setInputValue(event.target.value);
-      }
+        setInputValue({
+            label: event.target.value,
+            done: false
+        }
+        );
+    }
+
+    const updateTodoList = async () => {
+        try {
+            const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+                method: "PUT",
+                body: JSON.stringify(),
+                headers: {
+                    "Content-Type": "Application/json"
+                }
+            })
+            if (!response.ok) {
+                return false
+            }
+            const data = await response.json()
+                (data)
+            return true
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getTodoList = async () => {
+        try {
+            const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+                method: "GET",
+                body: JSON.stringify(),
+                headers: {
+                    "Content-Type": "Application/json"
+                }
+            })
+            if (!response.ok) {
+                return false
+            }
+            const data = await response.json()
+            setTodos(data)
+            return true
+
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    useEffect(() => {
+        getTodoList().then((ok) => {
+            if (!ok) {
+                updateTodoList()
+            }
+        })
+
+
+    }, [])
 
     return (
         <div>
-            <input 
-             id="todo-list"
-             type="text"
-             value={inputValue} 
-             onChange={handleChange}
-             onKeyDown= {(e) =>{
-                if(e.key === 'Enter'){ 
-                 setTodos(todos.concat(inputValue));
-                 setInputValue("");
-                 }
-             }
-             }>
+
+            <input
+                id="todo-list"
+                type="text"
+                value={inputValue.label || ""}
+                onChange={handleChange}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        setTodos(todos.concat(inputValue));
+                        setInputValue("");
+                    }
+                }
+                }>
             </input>
             <>
-            {todos.length === 0 && "No things to do, add task"}
+                {todos.length === 0 && "No things to do, add task"}
             </>
-            
-            {todos.map((item,index) => (
-				<div 
-                key={index}
-                onMouseEnter={()=> setHoverItem(index)}
-                onMouseLeave={()=> setHoverItem(null)}
+
+            {todos.map((item, index) => (
+                <div
+                    key={index}
+                    onMouseEnter={() => setHoverItem(index)}
+                    onMouseLeave={() => setHoverItem(null)}
                 >
 
-                <i className="fa-regular fa-square-check"></i>
- 
-                <span> {item}{""} </span> 
 
-                {hoverItem === index && <i className="fa-solid fa-trash p-20"
-                        onClick={()=>
+                    <i className="fa-regular fa-square-check"></i>
+
+                    <span> {item.label} </span>
+
+                    {hoverItem === index && <i className="fa-solid fa-trash p-20"
+                        onClick={() =>
                             setTodos(todos.filter(
                                 (todos, currentIndex) =>
-                                    index!= currentIndex 
-                                        ))
-                                }
+                                    index != currentIndex
+                            ))
+                        }
                     ></i>}
-                
-				</div>
-			))}
-            <div> {todos.length} tasks</div>
-        </div>  
-    );
-}
 
+                </div>
+            ))}
+            <div> {todos.length} tasks</div>
+        </div>
+    );
+
+}
 
 
 
