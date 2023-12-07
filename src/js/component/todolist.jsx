@@ -14,25 +14,45 @@ export const TodoList = () => {
         );
     }
 
-    const updateTodoList = async () => {
-        try {
-            const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
-                method: "PUT",
-                body: JSON.stringify(),
-                headers: {
-                    "Content-Type": "Application/json"
-                }
-            })
-            if (!response.ok) {
-                return false
+    const createNewUser = async () => {
+        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+            method: "POST",
+            body: JSON.stringify([]),
+            headers: {
+                "Content-Type": "Application/json"
             }
-            const data = await response.json()
-                (data)
-            return true
+        })
+        if (!response.ok) {
+            console.log(response)
+            const res = await response.json()
+            console.log(res)
 
-        } catch (error) {
-            console.log(error)
         }
+        console.log(response)
+        const res = await response.json()
+        console.log(res)
+
+    }
+
+    const updateTodoList = async () => {
+
+        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+            method: "PUT",
+            body: JSON.stringify(todos),
+            headers: {
+                "Content-Type": "Application/json"
+            }
+        })
+        if (!response.ok) {
+            console.log(response)
+            const res = await response.json()
+            console.log(res)
+
+        }
+        console.log(response)
+        const res = await response.json()
+        console.log(res)
+
     }
 
     const getTodoList = async () => {
@@ -58,14 +78,14 @@ export const TodoList = () => {
     }
 
     useEffect(() => {
-        getTodoList().then((ok) => {
-            if (!ok) {
-                updateTodoList()
-            }
-        })
-
+        createNewUser()
+        getTodoList()
 
     }, [])
+
+    useEffect(() => {
+        updateTodoList()
+    }, [todos])
 
     return (
         <div>
