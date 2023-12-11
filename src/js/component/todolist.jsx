@@ -15,7 +15,7 @@ export const TodoList = () => {
     }
 
     const createNewUser = async () => {
-        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/lauracardozom", {
             method: "POST",
             body: JSON.stringify([]),
             headers: {
@@ -36,7 +36,7 @@ export const TodoList = () => {
 
     const updateTodoList = async () => {
 
-        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+        const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/lauracardozom", {
             method: "PUT",
             body: JSON.stringify(todos),
             headers: {
@@ -57,7 +57,7 @@ export const TodoList = () => {
 
     const getTodoList = async () => {
         try {
-            const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/laurascardozo", {
+            const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/lauracardozom", {
                 method: "GET",
                 body: JSON.stringify(),
                 headers: {
